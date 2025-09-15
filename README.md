@@ -1,17 +1,16 @@
 **ChurnPredict** : 
 A Flask-based web application for predicting customer churn using machine learning. The app provides user authentication, a dashboard with prediction statistics and visualizations, and a form to predict churn based on customer data.
 
-Features
+Features:
 * User Authentication: Secure registration and login system.
 * Dashboard: Displays total users, predictions, user-specific predictions, average credit score, average balance, and a bar chart of churn vs. stay outcomes.
 * Churn Prediction: Input customer details (e.g., Credit Score, Geography, Age) to predict churn probability.
 * Responsive UI: Built with Bootstrap 5.3, Font Awesome, and a custom color palette for a professional, modern look.
 * Data Persistence: Stores user data and predictions in a SQLite database (app.db).
 
-Setup Instructions
-
+Setup Instructions:
 * Clone the Repository:
-git clone https://github.com/your-username/ChurnPredict.git
+git clone https://github.com/your-username/ChurnPredict.git<br>
 cd ChurnPredict
 
 * Create a Virtual Environment:
