@@ -14,7 +14,7 @@ git clone https://github.com/your-username/ChurnPredict.git<br>
 cd ChurnPredict
 
 * Create a Virtual Environment:
-python -m venv venv
+python -m venv venv<br>
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 * Install Dependencies:
@@ -22,43 +22,43 @@ pip install -r requirements.txt
 
 * Initialize the Database:
 Create the SQLite database (app.db) by running the initialization script (if provided) or manually creating the users and predictions tables:
-
-CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL
-);
-CREATE TABLE predictions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    credit_score REAL,
-    geography TEXT,
-    gender TEXT,
-    age REAL,
-    tenure REAL,
-    balance REAL,
-    num_products INTEGER,
-    has_cr_card TEXT,
-    is_active TEXT,
-    estimated_salary REAL,
-    prediction INTEGER,
-    probability REAL,
-    FOREIGN KEY (user_id) REFERENCES users (id)
-);
+<br>
+CREATE TABLE users (<br>
+    id INTEGER PRIMARY KEY AUTOINCREMENT,<br>
+    username TEXT UNIQUE NOT NULL,<br>
+    password_hash TEXT NOT NULL<br>
+);<br>
+CREATE TABLE predictions (<br>
+    id INTEGER PRIMARY KEY AUTOINCREMENT,<br>
+    user_id INTEGER,<br>
+    credit_score REAL,<br>
+    geography TEXT,<br>
+    gender TEXT,<br>
+    age REAL,<br>
+    tenure REAL,<br>
+    balance REAL,<br>
+    num_products INTEGER,<br>
+    has_cr_card TEXT,<br>
+    is_active TEXT,<br>
+    estimated_salary REAL,<br>
+    prediction INTEGER,<br>
+    probability REAL,<br>
+    FOREIGN KEY (user_id) REFERENCES users (id)<br>
+);<br>
 
 * Model Files:
-The repository may exclude model.pkl, scaler.pkl, and geography_encoder.pkl due to file size limits. To generate these:
-   Use the training script (e.g., train_model.py) with your dataset.
+The repository may exclude model.pkl, scaler.pkl, and geography_encoder.pkl due to file size limits.<br>
+To generate these,use the training script (e.g., train_model.py) with your dataset.<br>
   
 Example steps:
-python utils/preprocess.py
-Ensure scikit-learn is used to train a model and save StandardScaler and LabelEncoder objects.
+python utils/preprocess.py<br>
+Ensure scikit-learn is used to train a model and save StandardScaler and LabelEncoder objects.<br>
 
 * Run the Application:
-python app.py
-Open http://localhost:5000 in your browser.
+python app.py<br>
+Open http://localhost:5000 in your browser.<br>
 
-Usage
+Usage:
 * Register: Create an account at http://localhost:5000/register.
 * Login: Sign in at http://localhost:5000/login.
 * Dashboard: View statistics and a churn vs. stay chart at http://localhost:5000/home.
