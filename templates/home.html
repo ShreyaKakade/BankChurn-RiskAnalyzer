@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 content">
+  <h2 class="text-center mb-4" style="color: #000000;">Dashboard</h2>
+  <p class="text-center mb-4" style="color: #000000;">Welcome, {{ session['username'] }}! Explore churn prediction statistics below.</p>
+
+  <!-- Statistics Cards -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-users me-2"></i>Total Users</h5>
+          <p class="card-text" style="color: #000000;">{{ total_users|default(0) }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-chart-bar me-2"></i>Total Predictions</h5>
+          <p class="card-text" style="color: #000000;">{{ total_predictions|default(0) }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-user-check me-2"></i>Your Predictions</h5>
+          <p class="card-text" style="color: #000000;">{{ user_predictions|default(0) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Averages -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-credit-card me-2"></i>Average Credit Score</h5>
+          <p class="card-text" style="color: #000000;">{{ (avg_credit_score|default(0))|round(2) }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-wallet me-2"></i>Average Balance</h5>
+          <p class="card-text" style="color: #000000;">{{ (avg_balance|default(0))|round(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Churn vs. Stay Chart -->
+  <div class="row mb-4 justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-chart-pie me-2"></i>Prediction Outcomes</h5>
+          <canvas id="churnChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predict Button -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-magic me-2"></i>Make a Prediction</h5>
+          <p style="color: #000000;">Provide customer details like Credit Score, Geography, Age, Tenure, etc.</p>
+          <a href="{{ url_for('predict') }}" class="btn btn-primary" style="color: #000000;">Open Predictor</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ctx = document.getElementById('churnChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Stay', 'Churn'],
+      datasets: [{
+        label: 'Prediction Counts',
+        data: [{{ churn_counts['Stay']|default(0) }}, {{ churn_counts['Churn']|default(0) }}],
+        backgroundColor: ['#0f921eff', '#e20f28ff'],
+        borderColor: ['#0f921eff', '#e20f28ff'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuad'
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Number of Predictions', color: '#d1d1d3' },
+          ticks: { color: '#d1d1d3' }
+        },
+        x: {
+          title: { display: true, text: 'Prediction Outcome', color: '#d1d1d3' },
+          ticks: { color: '#d1d1d3' }
+        }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+</script>
+{% endblock %}

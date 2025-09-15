@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 content">
+  <div class="row mb-3">
+    <div class="col">
+      <a href="{{ url_for('home') }}" class="btn btn-primary" style="color: #000000;"><i class="fas fa-arrow-left me-2" style="color: #000000;"></i>Back to Dashboard</a>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card p-4">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4" style="color: #000000;"><i class="fas fa-magic me-2"></i>Churn Predictor</h3>
+          <form method="POST" id="predictForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="credit_score" class="form-label">Credit Score</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                  <input type="number" class="form-control" id="credit_score" name="credit_score" placeholder="Enter credit score" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="geography" class="form-label">Geography</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                  <select class="form-select" id="geography" name="geography" required>
+                    <option value="" disabled selected>Select country</option>
+                    <option value="France">France</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Germany">Germany</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <select class="form-select" id="gender" name="gender" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="age" class="form-label">Age</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
+                  <input type="number" class="form-control" id="age" name="age" placeholder="Enter age" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="tenure" class="form-label">Tenure (years)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                  <input type="number" class="form-control" id="tenure" name="tenure" placeholder="Enter tenure" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="balance" class="form-label">Balance</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-wallet"></i></span>
+                  <input type="number" step="0.01" class="form-control" id="balance" name="balance" placeholder="Enter balance" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="num_products" class="form-label">Number of Products</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-boxes"></i></span>
+                  <input type="number" class="form-control" id="num_products" name="num_products" placeholder="Enter number of products" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="has_cr_card" class="form-label">Has Credit Card</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                  <select class="form-select" id="has_cr_card" name="has_cr_card" required>
+                    <option value="" disabled selected>Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="is_active" class="form-label">Is Active Member</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user-check"></i></span>
+                  <select class="form-select" id="is_active" name="is_active" required>
+                    <option value="" disabled selected>Select option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="estimated_salary" class="form-label">Estimated Salary</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                  <input type="number" step="0.01" class="form-control" id="estimated_salary" name="estimated_salary" placeholder="Enter estimated salary" required>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="predictBtn" style="color: #000000;"><i class="fas fa-magic me-2" style="color: #000000;"></i>Predict</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title" style="color: #000000;"><i class="fas fa-poll me-2"></i>Result</h3>
+          {% if error %}
+            <div class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i>{{ error }}</div>
+          {% elif result %}
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>{{ result }}
+              {% if probability is not none %}
+                <br>Probability: {{ probability }}%
+              {% endif %}
+            </div>
+          {% else %}
+            <p style="color: #000000;">Fill the form and submit to see prediction here.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('predictForm').addEventListener('submit', () => {
+    const btn = document.getElementById('predictBtn');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+    btn.disabled = true;
+  });
+</script>
+{% endblock %}
