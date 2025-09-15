@@ -1,4 +1,4 @@
-**ChurnPredict**
+**ChurnPredict** : 
 A Flask-based web application for predicting customer churn using machine learning. The app provides user authentication, a dashboard with prediction statistics and visualizations, and a form to predict churn based on customer data.
 
 Features
